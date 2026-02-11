@@ -11,18 +11,10 @@ function generateCode() {
     return `${group()}-${group()}-${group()}`;
 }
 
-function corsHeaders() {
-    return {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type',
-    };
-}
-
 function respond(statusCode, body) {
     return {
         statusCode,
-        headers: { ...corsHeaders(), 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json' },
         body: typeof body === 'string' ? body : JSON.stringify(body),
     };
 }
@@ -136,7 +128,7 @@ async function main(args) {
     const method = (args.__ow_method || 'get').toUpperCase();
 
     if (method === 'OPTIONS') {
-        return { statusCode: 204, headers: corsHeaders() };
+        return { statusCode: 204 };
     }
 
     const s3 = getS3Client();
