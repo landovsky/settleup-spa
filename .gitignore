@@ -1,0 +1,4 @@
+.DS_Store
+api/.env
+api/.deployed
+api/packages/api/wallet/node_modules

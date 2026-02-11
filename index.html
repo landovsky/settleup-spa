@@ -66,7 +66,7 @@
 
         header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             padding-bottom: 30px;
             border-bottom: 3px solid var(--color-primary);
             position: relative;
@@ -99,6 +99,119 @@
             letter-spacing: 0.05em;
         }
 
+        /* Wallet Bar */
+        .wallet-bar {
+            background: var(--color-surface);
+            padding: 16px 24px;
+            border-radius: 14px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 30px;
+            border: 2px solid var(--color-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .wallet-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            min-width: 0;
+        }
+
+        .wallet-name {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--color-text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 200px;
+        }
+
+        .wallet-code {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 0.85rem;
+            color: var(--color-secondary);
+            background: rgba(0, 78, 137, 0.08);
+            padding: 4px 10px;
+            border-radius: 8px;
+            letter-spacing: 0.05em;
+        }
+
+        .wallet-local-label {
+            font-size: 0.85rem;
+            color: var(--color-text-light);
+            font-style: italic;
+        }
+
+        .sync-indicator {
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .sync-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .sync-dot.green {
+            background: var(--color-success);
+        }
+
+        .sync-dot.amber {
+            background: var(--color-accent);
+        }
+
+        .sync-dot.red {
+            background: var(--color-primary);
+        }
+
+        .wallet-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn-wallet {
+            padding: 8px 14px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 2px solid var(--color-border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--color-surface);
+            color: var(--color-text);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .btn-wallet:hover {
+            border-color: var(--color-secondary);
+            color: var(--color-secondary);
+        }
+
+        .btn-wallet.primary {
+            background: var(--color-secondary);
+            color: white;
+            border-color: var(--color-secondary);
+        }
+
+        .btn-wallet.primary:hover {
+            background: #003D6E;
+        }
+
+        /* Setup Section */
         .setup-section {
             background: var(--color-surface);
             padding: 30px;
@@ -506,6 +619,275 @@
             font-weight: 500;
         }
 
+        /* Modals */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-card {
+            background: var(--color-surface);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 440px;
+            width: 100%;
+            box-shadow: var(--shadow-lg);
+            border: 2px solid var(--color-border);
+            animation: fadeIn 0.3s ease-out;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .modal-title {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.1rem;
+            color: var(--color-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .btn-close {
+            padding: 6px 12px;
+            background: transparent;
+            color: var(--color-text-light);
+            border: 2px solid var(--color-border);
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .btn-close:hover {
+            background: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary);
+        }
+
+        /* Share Modal */
+        .share-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .share-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--color-text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            width: 50px;
+            flex-shrink: 0;
+        }
+
+        .share-value {
+            flex: 1;
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 0.95rem;
+            color: var(--color-secondary);
+            background: rgba(0, 78, 137, 0.06);
+            padding: 10px 14px;
+            border-radius: 10px;
+            word-break: break-all;
+        }
+
+        .btn-copy {
+            padding: 10px 14px;
+            background: transparent;
+            color: var(--color-secondary);
+            border: 2px solid var(--color-border);
+            font-size: 0.8rem;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .btn-copy:hover {
+            border-color: var(--color-secondary);
+            background: rgba(0, 78, 137, 0.05);
+        }
+
+        .btn-copy.copied {
+            background: var(--color-success);
+            color: white;
+            border-color: var(--color-success);
+        }
+
+        .qr-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .qr-container canvas,
+        .qr-container img {
+            border-radius: 12px;
+        }
+
+        .share-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-share-native {
+            flex: 1;
+            padding: 14px;
+            background: var(--color-secondary);
+            color: white;
+            border: none;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .btn-share-native:hover {
+            background: #003D6E;
+        }
+
+        /* Wallet Switcher Modal */
+        .wallet-list-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            border: 2px solid var(--color-border);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .wallet-list-item:hover {
+            border-color: var(--color-secondary);
+            background: rgba(0, 78, 137, 0.03);
+        }
+
+        .wallet-list-item.active {
+            border-color: var(--color-secondary);
+            background: rgba(0, 78, 137, 0.06);
+        }
+
+        .wallet-list-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .wallet-list-code {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 0.75rem;
+            color: var(--color-text-light);
+        }
+
+        .join-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid var(--color-border);
+        }
+
+        .join-section label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--color-text-light);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .join-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .join-row input {
+            flex: 1;
+            text-transform: uppercase;
+        }
+
+        .join-row button {
+            padding: 14px 20px;
+            flex-shrink: 0;
+        }
+
+        .join-error {
+            color: var(--color-primary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 8px;
+            display: none;
+        }
+
+        .switcher-actions {
+            margin-top: 16px;
+        }
+
+        .btn-new-wallet {
+            width: 100%;
+            padding: 12px;
+            background: transparent;
+            color: var(--color-secondary);
+            border: 2px dashed var(--color-border);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .btn-new-wallet:hover {
+            border-color: var(--color-secondary);
+            background: rgba(0, 78, 137, 0.05);
+        }
+
+        /* Not Found State */
+        .not-found {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .not-found h2 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.5rem;
+            color: var(--color-secondary);
+            margin-bottom: 12px;
+        }
+
+        .not-found p {
+            color: var(--color-text-light);
+            margin-bottom: 24px;
+        }
+
         @media (max-width: 640px) {
             h1 {
                 font-size: 2rem;
@@ -538,6 +920,29 @@
             .balance-card {
                 padding: 25px;
             }
+
+            .wallet-bar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .wallet-actions {
+                width: 100%;
+            }
+
+            .wallet-actions .btn-wallet {
+                flex: 1;
+                text-align: center;
+            }
+
+            .share-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .share-label {
+                width: auto;
+            }
         }
     </style>
 </head>
@@ -549,59 +954,122 @@
             <div class="tagline">Your Fair Share Calculator</div>
         </header>
 
-        <div class="setup-section">
-            <h2>👥 Who's Splitting?</h2>
-            <div id="peopleList" class="people-list"></div>
-            <button class="btn-add-person" onclick="addPerson()">+ Add Person</button>
-        </div>
+        <div class="wallet-bar" id="walletBar"></div>
 
-        <div class="balance-card">
-            <div class="balance-content">
-                <div class="balance-label">Balances</div>
-                <div id="balancesList"></div>
+        <div id="appContent">
+            <div class="setup-section">
+                <h2>👥 Who's Splitting?</h2>
+                <div id="peopleList" class="people-list"></div>
+                <button class="btn-add-person" onclick="addPerson()">+ Add Person</button>
+            </div>
+
+            <div class="balance-card">
+                <div class="balance-content">
+                    <div class="balance-label">Balances</div>
+                    <div id="balancesList"></div>
+                </div>
+            </div>
+
+            <div class="add-expense-form">
+                <h2>➕ Add Expense</h2>
+                <div class="form-row">
+                    <div class="input-group">
+                        <label for="description">Description</label>
+                        <input type="text" id="description" placeholder="What was it for?">
+                    </div>
+                    <div class="input-group">
+                        <label for="amount">Amount</label>
+                        <input type="number" id="amount" placeholder="0.00" step="0.01" min="0">
+                    </div>
+                    <div class="input-group">
+                        <label for="paidBy">Paid By</label>
+                        <select id="paidBy">
+                            <option value="">Select...</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn-primary" onclick="addExpense()">Add Expense</button>
+            </div>
+
+            <div class="expenses-list">
+                <h2>📋 History</h2>
+                <div id="historyList">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">💸</div>
+                        <div class="empty-state-text">No expenses yet. Add one above!</div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="add-expense-form">
-            <h2>➕ Add Expense</h2>
-            <div class="form-row">
-                <div class="input-group">
-                    <label for="description">Description</label>
-                    <input type="text" id="description" placeholder="What was it for?">
-                </div>
-                <div class="input-group">
-                    <label for="amount">Amount</label>
-                    <input type="number" id="amount" placeholder="0.00" step="0.01" min="0">
-                </div>
-                <div class="input-group">
-                    <label for="paidBy">Paid By</label>
-                    <select id="paidBy">
-                        <option value="">Select...</option>
-                    </select>
-                </div>
+        <div id="notFoundContent" style="display:none">
+            <div class="not-found">
+                <h2>Wallet Not Found</h2>
+                <p>The wallet code in the URL doesn't match any existing wallet.</p>
+                <button class="btn-primary" onclick="goHome()">Go Home</button>
             </div>
-            <button class="btn-primary" onclick="addExpense()">Add Expense</button>
         </div>
+    </div>
 
-        <div class="expenses-list">
-            <h2>📋 History</h2>
-            <div id="historyList">
-                <div class="empty-state">
-                    <div class="empty-state-icon">💸</div>
-                    <div class="empty-state-text">No expenses yet. Add one above!</div>
+    <!-- Share Modal -->
+    <div class="modal-overlay" id="shareModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title">Share Wallet</div>
+                <button class="btn-close" onclick="closeModal('shareModal')">&times;</button>
+            </div>
+            <div class="share-row">
+                <div class="share-label">Code</div>
+                <div class="share-value" id="shareCode"></div>
+                <button class="btn-copy" onclick="copyText(this, 'code')">Copy</button>
+            </div>
+            <div class="share-row">
+                <div class="share-label">Link</div>
+                <div class="share-value" id="shareLink"></div>
+                <button class="btn-copy" onclick="copyText(this, 'link')">Copy</button>
+            </div>
+            <div class="qr-container" id="qrContainer"></div>
+            <div class="share-actions" id="shareActions"></div>
+        </div>
+    </div>
+
+    <!-- Wallet Switcher Modal -->
+    <div class="modal-overlay" id="switcherModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title">My Wallets</div>
+                <button class="btn-close" onclick="closeModal('switcherModal')">&times;</button>
+            </div>
+            <div id="walletListContainer"></div>
+            <div class="join-section">
+                <label>Join by code</label>
+                <div class="join-row">
+                    <input type="text" id="joinCodeInput" placeholder="XXX-XXX-XXX" maxlength="11">
+                    <button class="btn-primary" onclick="joinByCode()">Join</button>
                 </div>
+                <div class="join-error" id="joinError"></div>
+            </div>
+            <div class="switcher-actions">
+                <button class="btn-new-wallet" onclick="createNewWallet()">+ New Wallet</button>
             </div>
         </div>
     </div>
 
     <script>
-        // State
+        // ─── Configuration ──────────────────────────────────────────────
+        const API_BASE = 'https://faas-fra1-afec6ce7.doserverless.co/api/v1/web/fn-83820d20-2e7e-46ba-b16f-a55ae2ef584f/api/wallet';
+        const SITE_URL = 'https://settleup.kopernici.cz';
+
+        // ─── State ─────────────────────────────────────────────────────
         let people = ['', ''];
         let expenses = [];
         let settlements = [];
         let currentTransfers = [];
+        let currentWalletCode = null;
+        let syncStatus = 'idle';
+        let syncTimer = null;
 
-        // Helpers
+        // ─── Helpers ───────────────────────────────────────────────────
         function escapeHtml(str) {
             const div = document.createElement('div');
             div.textContent = str;
@@ -616,42 +1084,462 @@
             });
         }
 
-        // Persistence
-        function saveData() {
-            localStorage.setItem('splitAppData', JSON.stringify({
-                people,
-                expenses,
-                settlements
+        function generateWalletName() {
+            const named = people.filter(p => p.trim());
+            if (named.length === 0) return 'New Wallet';
+            if (named.length === 1) return named[0];
+            if (named.length === 2) return `${named[0]} & ${named[1]}`;
+            return named.slice(0, -1).join(', ') + ' & ' + named[named.length - 1];
+        }
+
+        function walletUrl(code) {
+            return `${SITE_URL}/${code}`;
+        }
+
+        // ─── localStorage (multi-wallet) ───────────────────────────────
+        function getRegistry() {
+            try {
+                return JSON.parse(localStorage.getItem('splitApp:registry') || '[]');
+            } catch { return []; }
+        }
+
+        function saveRegistry(registry) {
+            localStorage.setItem('splitApp:registry', JSON.stringify(registry));
+        }
+
+        function addToRegistry(code) {
+            const registry = getRegistry();
+            const existing = registry.find(w => w.code === code);
+            if (existing) {
+                existing.name = generateWalletName();
+                existing.lastOpened = new Date().toISOString();
+            } else {
+                registry.unshift({
+                    code,
+                    name: generateWalletName(),
+                    lastOpened: new Date().toISOString()
+                });
+            }
+            saveRegistry(registry);
+        }
+
+        function removeFromRegistry(code) {
+            const registry = getRegistry().filter(w => w.code !== code);
+            saveRegistry(registry);
+            localStorage.removeItem(`wallet:${code}`);
+        }
+
+        function saveToLocalStorage() {
+            const data = { people, expenses, settlements };
+            if (currentWalletCode) {
+                localStorage.setItem(`wallet:${currentWalletCode}`, JSON.stringify(data));
+                addToRegistry(currentWalletCode);
+            }
+            localStorage.setItem('splitApp:current', JSON.stringify({
+                code: currentWalletCode,
+                ...data
             }));
         }
 
-        function loadData() {
-            const saved = localStorage.getItem('splitAppData');
-            if (!saved) return;
-
-            const data = JSON.parse(saved);
-
-            // Migrate from old 2-person format
-            if (data.person1Name !== undefined) {
-                const names = [data.person1Name || '', data.person2Name || ''];
-                people = names;
-                expenses = data.expenses || [];
-                settlements = [];
-            } else {
-                people = data.people || ['', ''];
-                expenses = data.expenses || [];
-                settlements = data.settlements || [];
-            }
-
-            if (people.length < 2) people = ['', ''];
-
-            renderPeople();
-            updatePaidByOptions();
-            renderHistory();
-            updateBalance();
+        function loadWalletFromLocalStorage(code) {
+            try {
+                return JSON.parse(localStorage.getItem(`wallet:${code}`));
+            } catch { return null; }
         }
 
-        // People management
+        function migrateOldData() {
+            const old = localStorage.getItem('splitAppData');
+            if (!old) return false;
+            try {
+                const data = JSON.parse(old);
+                if (data.person1Name !== undefined) {
+                    people = [data.person1Name || '', data.person2Name || ''];
+                    expenses = data.expenses || [];
+                    settlements = [];
+                } else {
+                    people = data.people || ['', ''];
+                    expenses = data.expenses || [];
+                    settlements = data.settlements || [];
+                }
+                if (people.length < 2) people = ['', ''];
+                saveToLocalStorage();
+                return true;
+            } catch { return false; }
+        }
+
+        // ─── Cloud Sync ────────────────────────────────────────────────
+        function setSyncStatus(status) {
+            syncStatus = status;
+            renderWalletBar();
+            if (status === 'saved') {
+                setTimeout(() => {
+                    if (syncStatus === 'saved') {
+                        syncStatus = 'idle';
+                        renderWalletBar();
+                    }
+                }, 3000);
+            }
+        }
+
+        function scheduleSyncToCloud() {
+            if (!currentWalletCode || API_BASE === 'API_URL_PLACEHOLDER') return;
+            clearTimeout(syncTimer);
+            setSyncStatus('saving');
+            syncTimer = setTimeout(() => syncToCloud(), 800);
+        }
+
+        async function syncToCloud() {
+            if (!currentWalletCode) return;
+            try {
+                const resp = await fetch(`${API_BASE}?code=${currentWalletCode}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        wallet: {
+                            name: generateWalletName(),
+                            people,
+                            expenses,
+                            settlements
+                        }
+                    }),
+                });
+                if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+                setSyncStatus('saved');
+            } catch (err) {
+                console.error('Cloud sync failed:', err);
+                setSyncStatus('error');
+            }
+        }
+
+        async function fetchWalletFromCloud(code) {
+            if (API_BASE === 'API_URL_PLACEHOLDER') return null;
+            try {
+                const resp = await fetch(`${API_BASE}?code=${code}`);
+                if (!resp.ok) return null;
+                return await resp.json();
+            } catch { return null; }
+        }
+
+        async function createCloudWallet() {
+            if (currentWalletCode) {
+                openShareModal();
+                return;
+            }
+            if (API_BASE === 'API_URL_PLACEHOLDER') {
+                alert('Cloud API not configured yet. Set API_BASE in the source code.');
+                return;
+            }
+
+            setSyncStatus('saving');
+            try {
+                const resp = await fetch(API_BASE, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        wallet: {
+                            name: generateWalletName(),
+                            people,
+                            expenses,
+                            settlements
+                        }
+                    }),
+                });
+                if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+                const result = await resp.json();
+                currentWalletCode = result.code;
+                addToRegistry(currentWalletCode);
+                saveToLocalStorage();
+                updateUrlBar();
+                setSyncStatus('saved');
+                openShareModal();
+            } catch (err) {
+                console.error('Failed to create cloud wallet:', err);
+                setSyncStatus('error');
+                alert('Could not save to cloud. Please try again.');
+            }
+        }
+
+        // ─── Persistence (unified) ─────────────────────────────────────
+        function saveData() {
+            saveToLocalStorage();
+            scheduleSyncToCloud();
+        }
+
+        // ─── URL Routing ───────────────────────────────────────────────
+        function getWalletCodeFromUrl() {
+            const redirectPath = sessionStorage.getItem('spa-redirect-path');
+            if (redirectPath) {
+                sessionStorage.removeItem('spa-redirect-path');
+                const match = redirectPath.match(/^\/([A-Z0-9]{3}-[A-Z0-9]{3}-[A-Z0-9]{3})$/i);
+                if (match) {
+                    history.replaceState(null, '', redirectPath);
+                    return match[1].toUpperCase();
+                }
+            }
+            const pathMatch = window.location.pathname.match(/^\/([A-Z0-9]{3}-[A-Z0-9]{3}-[A-Z0-9]{3})$/i);
+            if (pathMatch) return pathMatch[1].toUpperCase();
+            return null;
+        }
+
+        function updateUrlBar() {
+            if (currentWalletCode) {
+                history.replaceState(null, '', `/${currentWalletCode}`);
+                document.title = `Split · ${generateWalletName()}`;
+            } else {
+                if (window.location.pathname !== '/') {
+                    history.replaceState(null, '', '/');
+                }
+                document.title = 'Split · Expense Tracker';
+            }
+        }
+
+        function goHome() {
+            currentWalletCode = null;
+            people = ['', ''];
+            expenses = [];
+            settlements = [];
+            document.getElementById('notFoundContent').style.display = 'none';
+            document.getElementById('appContent').style.display = '';
+            updateUrlBar();
+            renderAll();
+        }
+
+        // ─── Wallet Bar ────────────────────────────────────────────────
+        function renderWalletBar() {
+            const bar = document.getElementById('walletBar');
+            const name = generateWalletName();
+
+            let syncHtml = '';
+            if (currentWalletCode) {
+                if (syncStatus === 'saving') {
+                    syncHtml = '<span class="sync-indicator"><span class="sync-dot amber"></span> Saving...</span>';
+                } else if (syncStatus === 'saved') {
+                    syncHtml = '<span class="sync-indicator"><span class="sync-dot green"></span> Saved</span>';
+                } else if (syncStatus === 'error') {
+                    syncHtml = '<span class="sync-indicator"><span class="sync-dot red"></span> Offline</span>';
+                }
+            }
+
+            if (currentWalletCode) {
+                bar.innerHTML = `
+                    <div class="wallet-info">
+                        <span class="wallet-name">${escapeHtml(name)}</span>
+                        <span class="wallet-code">${currentWalletCode}</span>
+                        ${syncHtml}
+                    </div>
+                    <div class="wallet-actions">
+                        <button class="btn-wallet" onclick="openShareModal()">Share</button>
+                        <button class="btn-wallet" onclick="openSwitcherModal()">My Wallets</button>
+                    </div>
+                `;
+            } else {
+                bar.innerHTML = `
+                    <div class="wallet-info">
+                        <span class="wallet-name">${escapeHtml(name)}</span>
+                        <span class="wallet-local-label">Local only</span>
+                    </div>
+                    <div class="wallet-actions">
+                        <button class="btn-wallet primary" onclick="createCloudWallet()">Save & Share</button>
+                        <button class="btn-wallet" onclick="openSwitcherModal()">My Wallets</button>
+                    </div>
+                `;
+            }
+        }
+
+        // ─── Share Modal ───────────────────────────────────────────────
+        function openShareModal() {
+            if (!currentWalletCode) return;
+            const url = walletUrl(currentWalletCode);
+            document.getElementById('shareCode').textContent = currentWalletCode;
+            document.getElementById('shareLink').textContent = url;
+
+            // Share button
+            const actionsEl = document.getElementById('shareActions');
+            if (navigator.share) {
+                actionsEl.innerHTML = `<button class="btn-share-native" onclick="nativeShare()">Share...</button>`;
+            } else {
+                actionsEl.innerHTML = '';
+            }
+
+            // QR code
+            renderQR(url);
+            document.getElementById('shareModal').classList.add('active');
+        }
+
+        async function renderQR(text) {
+            const container = document.getElementById('qrContainer');
+            container.innerHTML = '';
+
+            if (!window.QRCode) {
+                try {
+                    await new Promise((resolve, reject) => {
+                        const script = document.createElement('script');
+                        script.src = 'https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js';
+                        script.onload = resolve;
+                        script.onerror = reject;
+                        document.head.appendChild(script);
+                    });
+                } catch {
+                    container.innerHTML = '<span style="color:var(--color-text-light);font-size:0.85rem">QR code unavailable</span>';
+                    return;
+                }
+            }
+
+            new QRCode(container, {
+                text,
+                width: 180,
+                height: 180,
+                colorDark: '#004E89',
+                colorLight: '#FFFFFF',
+                correctLevel: QRCode.CorrectLevel.M,
+            });
+        }
+
+        async function nativeShare() {
+            if (!currentWalletCode) return;
+            try {
+                await navigator.share({
+                    title: `Split · ${generateWalletName()}`,
+                    text: `Join our expense split! Code: ${currentWalletCode}`,
+                    url: walletUrl(currentWalletCode),
+                });
+            } catch (err) {
+                if (err.name !== 'AbortError') console.error('Share failed:', err);
+            }
+        }
+
+        function copyText(btn, type) {
+            const text = type === 'code' ? currentWalletCode : walletUrl(currentWalletCode);
+            navigator.clipboard.writeText(text).then(() => {
+                btn.classList.add('copied');
+                btn.textContent = 'Copied!';
+                setTimeout(() => {
+                    btn.classList.remove('copied');
+                    btn.textContent = 'Copy';
+                }, 2000);
+            });
+        }
+
+        // ─── Wallet Switcher Modal ─────────────────────────────────────
+        function openSwitcherModal() {
+            const registry = getRegistry();
+            const container = document.getElementById('walletListContainer');
+
+            if (registry.length === 0) {
+                container.innerHTML = '<p style="color:var(--color-text-light);text-align:center;padding:20px 0;">No saved wallets yet.</p>';
+            } else {
+                container.innerHTML = registry.map(w => `
+                    <div class="wallet-list-item ${w.code === currentWalletCode ? 'active' : ''}"
+                         onclick="switchToWallet('${escapeHtml(w.code)}')">
+                        <div>
+                            <div class="wallet-list-name">${escapeHtml(w.name || 'Unnamed')}</div>
+                            <div class="wallet-list-code">${escapeHtml(w.code)}</div>
+                        </div>
+                        ${w.code === currentWalletCode ? '<span style="color:var(--color-success);font-weight:700;font-size:0.8rem">ACTIVE</span>' : ''}
+                    </div>
+                `).join('');
+            }
+
+            document.getElementById('joinCodeInput').value = '';
+            document.getElementById('joinError').style.display = 'none';
+            document.getElementById('switcherModal').classList.add('active');
+        }
+
+        async function switchToWallet(code) {
+            if (code === currentWalletCode) {
+                closeModal('switcherModal');
+                return;
+            }
+
+            // Save current state
+            saveToLocalStorage();
+
+            currentWalletCode = code;
+
+            // Load from local cache first for instant UI
+            const cached = loadWalletFromLocalStorage(code);
+            if (cached) {
+                people = cached.people || ['', ''];
+                expenses = cached.expenses || [];
+                settlements = cached.settlements || [];
+            } else {
+                people = ['', ''];
+                expenses = [];
+                settlements = [];
+            }
+
+            renderAll();
+            updateUrlBar();
+            closeModal('switcherModal');
+
+            // Refresh from cloud in background
+            const cloudData = await fetchWalletFromCloud(code);
+            if (cloudData) {
+                people = cloudData.people || ['', ''];
+                expenses = cloudData.expenses || [];
+                settlements = cloudData.settlements || [];
+                saveToLocalStorage();
+                renderAll();
+            }
+        }
+
+        async function joinByCode() {
+            const input = document.getElementById('joinCodeInput');
+            const errorEl = document.getElementById('joinError');
+            const code = input.value.trim().toUpperCase();
+
+            if (!/^[A-Z0-9]{3}-[A-Z0-9]{3}-[A-Z0-9]{3}$/.test(code)) {
+                errorEl.textContent = 'Invalid code format. Use XXX-XXX-XXX.';
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            errorEl.style.display = 'none';
+            const cloudData = await fetchWalletFromCloud(code);
+            if (!cloudData) {
+                errorEl.textContent = 'Wallet not found. Check the code.';
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            // Save current state
+            saveToLocalStorage();
+
+            currentWalletCode = code;
+            people = cloudData.people || ['', ''];
+            expenses = cloudData.expenses || [];
+            settlements = cloudData.settlements || [];
+            addToRegistry(code);
+            saveToLocalStorage();
+            updateUrlBar();
+            closeModal('switcherModal');
+            renderAll();
+        }
+
+        function createNewWallet() {
+            saveToLocalStorage();
+            currentWalletCode = null;
+            people = ['', ''];
+            expenses = [];
+            settlements = [];
+            saveToLocalStorage();
+            updateUrlBar();
+            closeModal('switcherModal');
+            renderAll();
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        // Close modals on backdrop click
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) overlay.classList.remove('active');
+            });
+        });
+
+        // ─── People Management ─────────────────────────────────────────
         function renderPeople() {
             const container = document.getElementById('peopleList');
             container.innerHTML = people.map((name, i) => `
@@ -672,7 +1560,6 @@
             const trimmed = newName.trim();
             people[index] = trimmed;
 
-            // Update references in expenses and settlements
             if (oldName && oldName !== trimmed) {
                 expenses.forEach(e => {
                     if (e.paidBy === oldName) e.paidBy = trimmed;
@@ -686,6 +1573,7 @@
             updatePaidByOptions();
             renderHistory();
             updateBalance();
+            renderWalletBar();
             saveData();
         }
 
@@ -711,10 +1599,11 @@
             updatePaidByOptions();
             renderHistory();
             updateBalance();
+            renderWalletBar();
             saveData();
         }
 
-        // Paid by dropdown
+        // ─── Paid By Dropdown ──────────────────────────────────────────
         function updatePaidByOptions() {
             const select = document.getElementById('paidBy');
             const current = select.value;
@@ -729,13 +1618,12 @@
                 }
             });
 
-            // Restore selection if still valid
             if (current && people.includes(current)) {
                 select.value = current;
             }
         }
 
-        // Add expense
+        // ─── Expenses ──────────────────────────────────────────────────
         function addExpense() {
             const description = document.getElementById('description').value.trim();
             const amount = parseFloat(document.getElementById('amount').value);
@@ -762,7 +1650,6 @@
             updateBalance();
         }
 
-        // Delete expense
         function deleteExpense(id) {
             if (confirm('Delete this expense?')) {
                 expenses = expenses.filter(e => e.id !== id);
@@ -772,7 +1659,6 @@
             }
         }
 
-        // Delete settlement
         function deleteSettlement(id) {
             if (confirm('Undo this settlement?')) {
                 settlements = settlements.filter(s => s.id !== id);
@@ -782,7 +1668,7 @@
             }
         }
 
-        // Balance calculation
+        // ─── Balance Calculation ───────────────────────────────────────
         function computeTransfers() {
             const named = people.filter(p => p.trim());
             if (named.length < 2) return [];
@@ -791,8 +1677,6 @@
             if (totalExpenses === 0 && settlements.length === 0) return [];
 
             const fairShare = totalExpenses / named.length;
-
-            // net balance: positive = owed money (creditor), negative = owes money (debtor)
             const balances = {};
             named.forEach(p => balances[p] = 0);
 
@@ -804,13 +1688,11 @@
 
             named.forEach(p => balances[p] -= fairShare);
 
-            // Factor in past settlements
             settlements.forEach(s => {
                 if (balances[s.from] !== undefined) balances[s.from] += s.amount;
                 if (balances[s.to] !== undefined) balances[s.to] -= s.amount;
             });
 
-            // Greedy minimum transfers
             const creditors = [];
             const debtors = [];
 
@@ -870,7 +1752,6 @@
             `).join('');
         }
 
-        // Settle up
         function settleUp(index) {
             const t = currentTransfers[index];
             if (!t) return;
@@ -889,7 +1770,7 @@
             updateBalance();
         }
 
-        // Render combined history
+        // ─── Render History ────────────────────────────────────────────
         function renderHistory() {
             const container = document.getElementById('historyList');
 
@@ -940,7 +1821,16 @@
             }).join('');
         }
 
-        // Keyboard shortcuts
+        // ─── Render All ────────────────────────────────────────────────
+        function renderAll() {
+            renderWalletBar();
+            renderPeople();
+            updatePaidByOptions();
+            renderHistory();
+            updateBalance();
+        }
+
+        // ─── Keyboard Shortcuts ────────────────────────────────────────
         document.getElementById('description').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') document.getElementById('amount').focus();
         });
@@ -949,12 +1839,86 @@
             if (e.key === 'Enter') document.getElementById('paidBy').focus();
         });
 
-        // Initialize
-        loadData();
-        if (!localStorage.getItem('splitAppData')) {
-            renderPeople();
-            updateBalance();
+        // Format join code input with dashes
+        document.getElementById('joinCodeInput').addEventListener('input', (e) => {
+            let val = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+            if (val.length > 3) val = val.slice(0, 3) + '-' + val.slice(3);
+            if (val.length > 7) val = val.slice(0, 7) + '-' + val.slice(7);
+            if (val.length > 11) val = val.slice(0, 11);
+            e.target.value = val;
+        });
+
+        document.getElementById('joinCodeInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') joinByCode();
+        });
+
+        // ─── Initialize ────────────────────────────────────────────────
+        async function init() {
+            const codeFromUrl = getWalletCodeFromUrl();
+
+            if (codeFromUrl) {
+                currentWalletCode = codeFromUrl;
+
+                // Load from local cache for instant rendering
+                const cached = loadWalletFromLocalStorage(codeFromUrl);
+                if (cached) {
+                    people = cached.people || ['', ''];
+                    expenses = cached.expenses || [];
+                    settlements = cached.settlements || [];
+                }
+
+                renderAll();
+                updateUrlBar();
+
+                // Fetch from cloud
+                const cloudData = await fetchWalletFromCloud(codeFromUrl);
+                if (cloudData) {
+                    people = cloudData.people || ['', ''];
+                    expenses = cloudData.expenses || [];
+                    settlements = cloudData.settlements || [];
+                    addToRegistry(codeFromUrl);
+                    saveToLocalStorage();
+                    renderAll();
+                } else if (!cached) {
+                    // Not found anywhere
+                    document.getElementById('appContent').style.display = 'none';
+                    document.getElementById('notFoundContent').style.display = '';
+                }
+            } else {
+                // No code in URL — load current wallet
+                const current = localStorage.getItem('splitApp:current');
+                if (current) {
+                    try {
+                        const data = JSON.parse(current);
+                        currentWalletCode = data.code || null;
+                        people = data.people || ['', ''];
+                        expenses = data.expenses || [];
+                        settlements = data.settlements || [];
+                    } catch {
+                        migrateOldData();
+                    }
+                } else {
+                    migrateOldData();
+                }
+
+                renderAll();
+                updateUrlBar();
+
+                // Refresh from cloud if we have a code
+                if (currentWalletCode) {
+                    const cloudData = await fetchWalletFromCloud(currentWalletCode);
+                    if (cloudData) {
+                        people = cloudData.people || ['', ''];
+                        expenses = cloudData.expenses || [];
+                        settlements = cloudData.settlements || [];
+                        saveToLocalStorage();
+                        renderAll();
+                    }
+                }
+            }
         }
+
+        init();
     </script>
 </body>
 

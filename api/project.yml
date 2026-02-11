@@ -1,0 +1,14 @@
+packages:
+  - name: api
+    environment:
+      SPACES_ENDPOINT: "${SPACES_ENDPOINT}"
+      SPACES_BUCKET: "${SPACES_BUCKET}"
+      SPACES_KEY: "${SPACES_KEY}"
+      SPACES_SECRET: "${SPACES_SECRET}"
+    functions:
+      - name: wallet
+        runtime: nodejs:18
+        web: true
+        limits:
+          timeout: 5000
+          memory: 256
