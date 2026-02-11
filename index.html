@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Split · Expense Tracker</title>
+    <meta property="og:title" content="Split · Expense Tracker">
+    <meta property="og:description"
+        content="Split expenses fairly between any number of people. Track who paid what and settle up easily.">
+    <meta property="og:image" content="https://settleup.kopernici.cz/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://settleup.kopernici.cz">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Archivo+Black&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --color-bg: #FFF9F0;
+            --color-surface: #FFFFFF;
+            --color-primary: #FF6B35;
+            --color-secondary: #004E89;
+            --color-accent: #F7B32B;
+            --color-text: #1A1A1A;
+            --color-text-light: #666666;
+            --color-border: #E8E0D5;
+            --color-success: #06A77D;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 3px solid var(--color-primary);
+            position: relative;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--color-accent);
+        }
+
+        h1 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 3rem;
+            color: var(--color-primary);
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .tagline {
+            font-size: 1rem;
+            color: var(--color-text-light);
+            font-weight: 500;
+            letter-spacing: 0.05em;
+        }
+
+        .setup-section {
+            background: var(--color-surface);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 30px;
+            border: 2px solid var(--color-border);
+        }
+
+        .setup-section h2 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--color-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .people-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .person-input-row {
+            display: flex;
+            gap: 8px;
+            align-items: flex-end;
+        }
+
+        .person-input-row .input-group {
+            flex: 1;
+        }
+
+        .btn-remove-person {
+            padding: 14px 14px;
+            background: transparent;
+            color: var(--color-text-light);
+            border: 2px solid var(--color-border);
+            font-size: 1.1rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+
+        .btn-remove-person:hover {
+            background: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary);
+        }
+
+        .btn-add-person {
+            padding: 10px 20px;
+            background: transparent;
+            color: var(--color-secondary);
+            border: 2px dashed var(--color-border);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .btn-add-person:hover {
+            border-color: var(--color-secondary);
+            background: rgba(0, 78, 137, 0.05);
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--color-text-light);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 14px 16px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            border: 2px solid var(--color-border);
+            border-radius: 12px;
+            background: var(--color-surface);
+            color: var(--color-text);
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        select:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .add-expense-form {
+            background: var(--color-surface);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 30px;
+            border: 2px solid var(--color-border);
+        }
+
+        .add-expense-form h2 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--color-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 14px 28px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-primary:hover {
+            background: #E85A2A;
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .balance-card {
+            background: linear-gradient(135deg, var(--color-secondary) 0%, #003D6E 100%);
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-lg);
+            color: white;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid var(--color-accent);
+        }
+
+        .balance-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .balance-card::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 50%;
+        }
+
+        .balance-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .balance-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0.8;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .balance-settled {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.5rem;
+            opacity: 0.9;
+        }
+
+        .transfer-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .transfer-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .transfer-item:first-child {
+            padding-top: 0;
+        }
+
+        .transfer-info {
+            font-size: 1.05rem;
+            font-weight: 500;
+        }
+
+        .transfer-amount {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.3rem;
+            color: var(--color-accent);
+        }
+
+        .transfer-arrow {
+            opacity: 0.6;
+            margin: 0 6px;
+        }
+
+        .btn-settle {
+            padding: 8px 18px;
+            background: var(--color-success);
+            color: white;
+            border: none;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            flex-shrink: 0;
+            margin-left: 12px;
+        }
+
+        .btn-settle:hover {
+            background: #059669;
+            transform: scale(1.05);
+        }
+
+        .expenses-list {
+            background: var(--color-surface);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            border: 2px solid var(--color-border);
+        }
+
+        .expenses-list h2 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            color: var(--color-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .expense-item {
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            background: var(--color-bg);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border: 2px solid var(--color-border);
+            transition: all 0.3s ease;
+            animation: slideIn 0.4s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .expense-item:hover {
+            border-color: var(--color-primary);
+            transform: translateX(4px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .expense-item.settlement {
+            border-color: var(--color-success);
+            background: linear-gradient(135deg, #f0fdf4 0%, var(--color-bg) 100%);
+        }
+
+        .expense-item.settlement:hover {
+            border-color: #059669;
+        }
+
+        .expense-info {
+            flex: 1;
+        }
+
+        .expense-description {
+            font-weight: 600;
+            font-size: 1.05rem;
+            margin-bottom: 5px;
+            color: var(--color-text);
+        }
+
+        .expense-meta {
+            font-size: 0.85rem;
+            color: var(--color-text-light);
+            font-weight: 500;
+        }
+
+        .expense-amount {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.3rem;
+            color: var(--color-primary);
+            letter-spacing: -0.01em;
+        }
+
+        .expense-item.settlement .expense-amount {
+            color: var(--color-success);
+        }
+
+        .settlement-badge {
+            display: inline-block;
+            background: var(--color-success);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        .btn-delete {
+            padding: 8px 16px;
+            background: transparent;
+            color: var(--color-text-light);
+            border: 2px solid var(--color-border);
+            font-size: 0.85rem;
+            border-radius: 8px;
+        }
+
+        .btn-delete:hover {
+            background: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary);
+            transform: scale(1.05);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--color-text-light);
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+
+        .empty-state-text {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        @media (max-width: 640px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .people-list,
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .expense-item {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .expense-amount {
+                text-align: left;
+            }
+
+            .transfer-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .btn-settle {
+                margin-left: 0;
+            }
+
+            .balance-card {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Split</h1>
+            <div class="tagline">Your Fair Share Calculator</div>
+        </header>
+
+        <div class="setup-section">
+            <h2>👥 Who's Splitting?</h2>
+            <div id="peopleList" class="people-list"></div>
+            <button class="btn-add-person" onclick="addPerson()">+ Add Person</button>
+        </div>
+
+        <div class="balance-card">
+            <div class="balance-content">
+                <div class="balance-label">Balances</div>
+                <div id="balancesList"></div>
+            </div>
+        </div>
+
+        <div class="add-expense-form">
+            <h2>➕ Add Expense</h2>
+            <div class="form-row">
+                <div class="input-group">
+                    <label for="description">Description</label>
+                    <input type="text" id="description" placeholder="What was it for?">
+                </div>
+                <div class="input-group">
+                    <label for="amount">Amount</label>
+                    <input type="number" id="amount" placeholder="0.00" step="0.01" min="0">
+                </div>
+                <div class="input-group">
+                    <label for="paidBy">Paid By</label>
+                    <select id="paidBy">
+                        <option value="">Select...</option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn-primary" onclick="addExpense()">Add Expense</button>
+        </div>
+
+        <div class="expenses-list">
+            <h2>📋 History</h2>
+            <div id="historyList">
+                <div class="empty-state">
+                    <div class="empty-state-icon">💸</div>
+                    <div class="empty-state-text">No expenses yet. Add one above!</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // State
+        let people = ['', ''];
+        let expenses = [];
+        let settlements = [];
+        let currentTransfers = [];
+
+        // Helpers
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        function formatDate(iso) {
+            return new Date(iso).toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
+            });
+        }
+
+        // Persistence
+        function saveData() {
+            localStorage.setItem('splitAppData', JSON.stringify({
+                people,
+                expenses,
+                settlements
+            }));
+        }
+
+        function loadData() {
+            const saved = localStorage.getItem('splitAppData');
+            if (!saved) return;
+
+            const data = JSON.parse(saved);
+
+            // Migrate from old 2-person format
+            if (data.person1Name !== undefined) {
+                const names = [data.person1Name || '', data.person2Name || ''];
+                people = names;
+                expenses = data.expenses || [];
+                settlements = [];
+            } else {
+                people = data.people || ['', ''];
+                expenses = data.expenses || [];
+                settlements = data.settlements || [];
+            }
+
+            if (people.length < 2) people = ['', ''];
+
+            renderPeople();
+            updatePaidByOptions();
+            renderHistory();
+            updateBalance();
+        }
+
+        // People management
+        function renderPeople() {
+            const container = document.getElementById('peopleList');
+            container.innerHTML = people.map((name, i) => `
+                <div class="person-input-row">
+                    <div class="input-group">
+                        <label>Person ${i + 1}</label>
+                        <input type="text" value="${escapeHtml(name)}"
+                            placeholder="Enter name"
+                            oninput="handleNameInput(${i}, this.value)">
+                    </div>
+                    ${people.length > 2 ? `<button class="btn-remove-person" onclick="removePerson(${i})" title="Remove">&times;</button>` : ''}
+                </div>
+            `).join('');
+        }
+
+        function handleNameInput(index, newName) {
+            const oldName = people[index];
+            const trimmed = newName.trim();
+            people[index] = trimmed;
+
+            // Update references in expenses and settlements
+            if (oldName && oldName !== trimmed) {
+                expenses.forEach(e => {
+                    if (e.paidBy === oldName) e.paidBy = trimmed;
+                });
+                settlements.forEach(s => {
+                    if (s.from === oldName) s.from = trimmed;
+                    if (s.to === oldName) s.to = trimmed;
+                });
+            }
+
+            updatePaidByOptions();
+            renderHistory();
+            updateBalance();
+            saveData();
+        }
+
+        function addPerson() {
+            people.push('');
+            renderPeople();
+            saveData();
+        }
+
+        function removePerson(index) {
+            const name = people[index];
+            if (name) {
+                const hasExpenses = expenses.some(e => e.paidBy === name);
+                const hasSettlements = settlements.some(s => s.from === name || s.to === name);
+                if (hasExpenses || hasSettlements) {
+                    if (!confirm(`${name} has expenses or settlements. Remove them and all their records?`)) return;
+                    expenses = expenses.filter(e => e.paidBy !== name);
+                    settlements = settlements.filter(s => s.from !== name && s.to !== name);
+                }
+            }
+            people.splice(index, 1);
+            renderPeople();
+            updatePaidByOptions();
+            renderHistory();
+            updateBalance();
+            saveData();
+        }
+
+        // Paid by dropdown
+        function updatePaidByOptions() {
+            const select = document.getElementById('paidBy');
+            const current = select.value;
+            select.innerHTML = '<option value="">Select...</option>';
+
+            people.forEach(name => {
+                if (name) {
+                    const option = document.createElement('option');
+                    option.value = name;
+                    option.textContent = name;
+                    select.appendChild(option);
+                }
+            });
+
+            // Restore selection if still valid
+            if (current && people.includes(current)) {
+                select.value = current;
+            }
+        }
+
+        // Add expense
+        function addExpense() {
+            const description = document.getElementById('description').value.trim();
+            const amount = parseFloat(document.getElementById('amount').value);
+            const paidBy = document.getElementById('paidBy').value;
+
+            if (!description) { alert('Please enter a description'); return; }
+            if (!amount || amount <= 0) { alert('Please enter a valid amount'); return; }
+            if (!paidBy) { alert('Please select who paid'); return; }
+
+            expenses.unshift({
+                id: Date.now(),
+                description,
+                amount,
+                paidBy,
+                date: new Date().toISOString()
+            });
+
+            document.getElementById('description').value = '';
+            document.getElementById('amount').value = '';
+            document.getElementById('paidBy').value = '';
+
+            saveData();
+            renderHistory();
+            updateBalance();
+        }
+
+        // Delete expense
+        function deleteExpense(id) {
+            if (confirm('Delete this expense?')) {
+                expenses = expenses.filter(e => e.id !== id);
+                saveData();
+                renderHistory();
+                updateBalance();
+            }
+        }
+
+        // Delete settlement
+        function deleteSettlement(id) {
+            if (confirm('Undo this settlement?')) {
+                settlements = settlements.filter(s => s.id !== id);
+                saveData();
+                renderHistory();
+                updateBalance();
+            }
+        }
+
+        // Balance calculation
+        function computeTransfers() {
+            const named = people.filter(p => p.trim());
+            if (named.length < 2) return [];
+
+            const totalExpenses = expenses.reduce((sum, e) => sum + e.amount, 0);
+            if (totalExpenses === 0 && settlements.length === 0) return [];
+
+            const fairShare = totalExpenses / named.length;
+
+            // net balance: positive = owed money (creditor), negative = owes money (debtor)
+            const balances = {};
+            named.forEach(p => balances[p] = 0);
+
+            expenses.forEach(e => {
+                if (balances[e.paidBy] !== undefined) {
+                    balances[e.paidBy] += e.amount;
+                }
+            });
+
+            named.forEach(p => balances[p] -= fairShare);
+
+            // Factor in past settlements
+            settlements.forEach(s => {
+                if (balances[s.from] !== undefined) balances[s.from] += s.amount;
+                if (balances[s.to] !== undefined) balances[s.to] -= s.amount;
+            });
+
+            // Greedy minimum transfers
+            const creditors = [];
+            const debtors = [];
+
+            named.forEach(p => {
+                if (balances[p] > 0.01) creditors.push({ name: p, amount: balances[p] });
+                else if (balances[p] < -0.01) debtors.push({ name: p, amount: -balances[p] });
+            });
+
+            creditors.sort((a, b) => b.amount - a.amount);
+            debtors.sort((a, b) => b.amount - a.amount);
+
+            const transfers = [];
+            let ci = 0, di = 0;
+            while (ci < creditors.length && di < debtors.length) {
+                const amount = Math.min(creditors[ci].amount, debtors[di].amount);
+                transfers.push({
+                    from: debtors[di].name,
+                    to: creditors[ci].name,
+                    amount: Math.round(amount * 100) / 100
+                });
+                creditors[ci].amount -= amount;
+                debtors[di].amount -= amount;
+                if (creditors[ci].amount < 0.01) ci++;
+                if (debtors[di].amount < 0.01) di++;
+            }
+
+            return transfers;
+        }
+
+        function updateBalance() {
+            const transfers = computeTransfers();
+            currentTransfers = transfers;
+            const container = document.getElementById('balancesList');
+            const named = people.filter(p => p.trim());
+
+            if (named.length < 2) {
+                container.innerHTML = '<div class="balance-settled">Add at least 2 people to start</div>';
+                return;
+            }
+
+            if (transfers.length === 0) {
+                container.innerHTML = '<div class="balance-settled">All settled up! 🎉</div>';
+                return;
+            }
+
+            container.innerHTML = transfers.map((t, i) => `
+                <div class="transfer-item">
+                    <div class="transfer-info">
+                        <strong>${escapeHtml(t.from)}</strong>
+                        <span class="transfer-arrow">&rarr;</span>
+                        <strong>${escapeHtml(t.to)}</strong>
+                        &nbsp;
+                        <span class="transfer-amount">$${t.amount.toFixed(2)}</span>
+                    </div>
+                    <button class="btn-settle" onclick="settleUp(${i})">Settle</button>
+                </div>
+            `).join('');
+        }
+
+        // Settle up
+        function settleUp(index) {
+            const t = currentTransfers[index];
+            if (!t) return;
+            if (!confirm(`Record settlement: ${t.from} pays ${t.to} $${t.amount.toFixed(2)}?`)) return;
+
+            settlements.unshift({
+                id: Date.now(),
+                from: t.from,
+                to: t.to,
+                amount: t.amount,
+                date: new Date().toISOString()
+            });
+
+            saveData();
+            renderHistory();
+            updateBalance();
+        }
+
+        // Render combined history
+        function renderHistory() {
+            const container = document.getElementById('historyList');
+
+            const items = [
+                ...expenses.map(e => ({ ...e, type: 'expense' })),
+                ...settlements.map(s => ({ ...s, type: 'settlement' }))
+            ];
+
+            items.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            if (items.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">💸</div>
+                        <div class="empty-state-text">No expenses yet. Add one above!</div>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = items.map(item => {
+                if (item.type === 'expense') {
+                    return `
+                        <div class="expense-item">
+                            <div class="expense-info">
+                                <div class="expense-description">${escapeHtml(item.description)}</div>
+                                <div class="expense-meta">${escapeHtml(item.paidBy)} · ${formatDate(item.date)}</div>
+                            </div>
+                            <div class="expense-amount">$${item.amount.toFixed(2)}</div>
+                            <button class="btn-delete" onclick="deleteExpense(${item.id})">Delete</button>
+                        </div>
+                    `;
+                } else {
+                    return `
+                        <div class="expense-item settlement">
+                            <div class="expense-info">
+                                <div class="expense-description">
+                                    ${escapeHtml(item.from)} &rarr; ${escapeHtml(item.to)}
+                                    <span class="settlement-badge">Settlement</span>
+                                </div>
+                                <div class="expense-meta">${formatDate(item.date)}</div>
+                            </div>
+                            <div class="expense-amount">$${item.amount.toFixed(2)}</div>
+                            <button class="btn-delete" onclick="deleteSettlement(${item.id})">Undo</button>
+                        </div>
+                    `;
+                }
+            }).join('');
+        }
+
+        // Keyboard shortcuts
+        document.getElementById('description').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') document.getElementById('amount').focus();
+        });
+
+        document.getElementById('amount').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') document.getElementById('paidBy').focus();
+        });
+
+        // Initialize
+        loadData();
+        if (!localStorage.getItem('splitAppData')) {
+            renderPeople();
+            updateBalance();
+        }
+    </script>
+</body>
+
+</html>
