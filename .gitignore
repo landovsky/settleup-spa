@@ -2,3 +2,5 @@
 api/.env
 api/.deployed
 api/packages/api/wallet/node_modules
+api/packages/api/wallet/__deployer__.zip
+api/packages/api/wallet/package-lock.json
