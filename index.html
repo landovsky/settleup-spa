@@ -351,6 +351,71 @@
             margin-bottom: 20px;
         }
 
+        .split-among-section {
+            margin-bottom: 20px;
+        }
+
+        .split-among-toggle {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: var(--color-text-light);
+            user-select: none;
+            padding: 4px 0;
+        }
+
+        .split-among-toggle:hover {
+            color: var(--color-primary);
+        }
+
+        .split-among-arrow {
+            font-size: 0.75rem;
+            transition: transform 0.2s ease;
+        }
+
+        .split-among-arrow.open {
+            transform: rotate(90deg);
+        }
+
+        .split-among-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .split-among-chip {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s ease;
+            border: 2px solid var(--color-border);
+            background: var(--color-surface);
+            color: var(--color-text-light);
+        }
+
+        .split-among-chip.active {
+            border-color: var(--color-primary);
+            background: rgba(255, 107, 53, 0.08);
+            color: var(--color-text);
+        }
+
+        .split-among-chip:hover {
+            border-color: var(--color-primary);
+        }
+
+        .split-among-chip .chip-check {
+            font-size: 0.8rem;
+        }
+
         button {
             padding: 14px 28px;
             font-family: 'DM Sans', sans-serif;
@@ -990,6 +1055,13 @@
                         </select>
                     </div>
                 </div>
+                <div class="split-among-section">
+                    <div class="split-among-toggle" onclick="toggleSplitAmong()">
+                        <span id="splitAmongLabel">Split equally among everyone</span>
+                        <span class="split-among-arrow" id="splitAmongArrow">▸</span>
+                    </div>
+                    <div id="splitAmongList" class="split-among-list" style="display:none;"></div>
+                </div>
                 <button class="btn-primary" onclick="addExpense()">Add Expense</button>
             </div>
 
@@ -1565,6 +1637,10 @@
             if (oldName && oldName !== trimmed) {
                 expenses.forEach(e => {
                     if (e.paidBy === oldName) e.paidBy = trimmed;
+                    if (e.splitAmong) {
+                        const idx = e.splitAmong.indexOf(oldName);
+                        if (idx !== -1) e.splitAmong[idx] = trimmed;
+                    }
                 });
                 settlements.forEach(s => {
                     if (s.from === oldName) s.from = trimmed;
@@ -1573,6 +1649,7 @@
             }
 
             updatePaidByOptions();
+            if (splitAmongOpen) renderSplitAmongChips();
             renderHistory();
             updateBalance();
             renderWalletBar();
@@ -1582,6 +1659,7 @@
         function addPerson() {
             people.push('');
             renderPeople();
+            if (splitAmongOpen) renderSplitAmongChips();
             saveData();
         }
 
@@ -1595,10 +1673,19 @@
                     expenses = expenses.filter(e => e.paidBy !== name);
                     settlements = settlements.filter(s => s.from !== name && s.to !== name);
                 }
+                // Remove from splitAmong arrays on remaining expenses
+                expenses.forEach(e => {
+                    if (e.splitAmong) {
+                        e.splitAmong = e.splitAmong.filter(p => p !== name);
+                        if (e.splitAmong.length === 0) delete e.splitAmong;
+                    }
+                });
             }
             people.splice(index, 1);
+            splitAmongSelection.delete(name);
             renderPeople();
             updatePaidByOptions();
+            if (splitAmongOpen) renderSplitAmongChips();
             renderHistory();
             updateBalance();
             renderWalletBar();
@@ -1625,6 +1712,77 @@
             }
         }
 
+        // ─── Split Among ──────────────────────────────────────────────
+        let splitAmongOpen = false;
+        let splitAmongSelection = new Set(); // empty = everyone
+
+        function toggleSplitAmong() {
+            splitAmongOpen = !splitAmongOpen;
+            document.getElementById('splitAmongList').style.display = splitAmongOpen ? 'flex' : 'none';
+            document.getElementById('splitAmongArrow').classList.toggle('open', splitAmongOpen);
+            if (splitAmongOpen) renderSplitAmongChips();
+        }
+
+        function renderSplitAmongChips() {
+            const named = people.filter(p => p.trim());
+            const container = document.getElementById('splitAmongList');
+            if (named.length === 0) {
+                container.innerHTML = '<span style="color:var(--color-text-light);font-size:0.85rem;">Add people first</span>';
+                return;
+            }
+            container.innerHTML = named.map((name, i) => {
+                const isActive = splitAmongSelection.size === 0 || splitAmongSelection.has(name);
+                return `<div class="split-among-chip ${isActive ? 'active' : ''}" onclick="toggleSplitPerson(${i})">
+                    <span class="chip-check">${isActive ? '✓' : ''}</span>
+                    ${escapeHtml(name)}
+                </div>`;
+            }).join('');
+            updateSplitAmongLabel();
+        }
+
+        function toggleSplitPerson(index) {
+            const named = people.filter(p => p.trim());
+            const name = named[index];
+            if (!name) return;
+            if (splitAmongSelection.size === 0) {
+                // First click from "everyone" state: deselect this person
+                named.forEach(p => splitAmongSelection.add(p));
+                splitAmongSelection.delete(name);
+            } else if (splitAmongSelection.has(name)) {
+                // Don't allow deselecting the last person
+                if (splitAmongSelection.size <= 1) return;
+                splitAmongSelection.delete(name);
+            } else {
+                splitAmongSelection.add(name);
+                // If all are selected, reset to "everyone" (empty set)
+                if (splitAmongSelection.size === named.length) {
+                    splitAmongSelection.clear();
+                }
+            }
+            renderSplitAmongChips();
+        }
+
+        function updateSplitAmongLabel() {
+            const named = people.filter(p => p.trim());
+            const label = document.getElementById('splitAmongLabel');
+            if (splitAmongSelection.size === 0 || splitAmongSelection.size === named.length) {
+                label.textContent = 'Split equally among everyone';
+            } else if (splitAmongSelection.size === 1) {
+                const person = [...splitAmongSelection][0];
+                label.textContent = `Paid for ${person} only`;
+            } else {
+                label.textContent = `Split among ${splitAmongSelection.size} of ${named.length} people`;
+            }
+        }
+
+        function resetSplitAmong() {
+            splitAmongSelection.clear();
+            splitAmongOpen = false;
+            document.getElementById('splitAmongList').style.display = 'none';
+            document.getElementById('splitAmongArrow').classList.remove('open');
+            updateSplitAmongLabel();
+        }
+
         // ─── Expenses ──────────────────────────────────────────────────
         function addExpense() {
             const description = document.getElementById('description').value.trim();
@@ -1635,17 +1793,25 @@
             if (!amount || amount <= 0) { alert('Please enter a valid amount'); return; }
             if (!paidBy) { alert('Please select who paid'); return; }
 
-            expenses.unshift({
+            const expense = {
                 id: Date.now(),
                 description,
                 amount,
                 paidBy,
                 date: new Date().toISOString()
-            });
+            };
+
+            // Only store splitAmong if it's a subset (not everyone)
+            if (splitAmongSelection.size > 0) {
+                expense.splitAmong = [...splitAmongSelection];
+            }
+
+            expenses.unshift(expense);
 
             document.getElementById('description').value = '';
             document.getElementById('amount').value = '';
             document.getElementById('paidBy').value = '';
+            resetSplitAmong();
 
             saveData();
             renderHistory();
@@ -1678,17 +1844,24 @@
             const totalExpenses = expenses.reduce((sum, e) => sum + e.amount, 0);
             if (totalExpenses === 0 && settlements.length === 0) return [];
 
-            const fairShare = totalExpenses / named.length;
             const balances = {};
             named.forEach(p => balances[p] = 0);
 
             expenses.forEach(e => {
+                // Credit the payer
                 if (balances[e.paidBy] !== undefined) {
                     balances[e.paidBy] += e.amount;
                 }
-            });
 
-            named.forEach(p => balances[p] -= fairShare);
+                // Debit the consumers (splitAmong or everyone)
+                const consumers = e.splitAmong
+                    ? e.splitAmong.filter(p => named.includes(p))
+                    : named;
+                const share = e.amount / consumers.length;
+                consumers.forEach(p => {
+                    if (balances[p] !== undefined) balances[p] -= share;
+                });
+            });
 
             settlements.forEach(s => {
                 if (balances[s.from] !== undefined) balances[s.from] += s.amount;
@@ -1795,11 +1968,14 @@
 
             container.innerHTML = items.map(item => {
                 if (item.type === 'expense') {
+                    const splitInfo = item.splitAmong
+                        ? ` · split: ${item.splitAmong.map(escapeHtml).join(', ')}`
+                        : '';
                     return `
                         <div class="expense-item">
                             <div class="expense-info">
                                 <div class="expense-description">${escapeHtml(item.description)}</div>
-                                <div class="expense-meta">${escapeHtml(item.paidBy)} · ${formatDate(item.date)}</div>
+                                <div class="expense-meta">${escapeHtml(item.paidBy)} · ${formatDate(item.date)}${splitInfo}</div>
                             </div>
                             <div class="expense-amount">$${item.amount.toFixed(2)}</div>
                             <button class="btn-delete" onclick="deleteExpense(${item.id})">Delete</button>
